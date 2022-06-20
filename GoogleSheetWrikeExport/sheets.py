@@ -1,6 +1,7 @@
 
 import os
 from dotenv import load_dotenv
+load_dotenv()
 
 def write(data):
     import gspread
@@ -14,15 +15,4 @@ def write(data):
             formattedData.append([row,task[row]])
         
     sh.update("A1", formattedData)
-        
-    
-    
-    
-    # # write data to google sheet
-    # sheet.append_row(data)
     return "done"
-
-    
-    
-    
-# googleSheetWrite({"receiver_email_1":6, "receiver_email_2":8, "receiver_email_3":10})

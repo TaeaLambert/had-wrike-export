@@ -1,6 +1,4 @@
-import json
 import requests
-
 
 def get_tasks(api_url, headers):
     # http request to get all tasks in the Wrike account

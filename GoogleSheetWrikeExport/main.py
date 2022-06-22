@@ -2,9 +2,6 @@ import utils
 import wrike
 import sheets
 from pathlib import Path
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 def runGoogleSheetWrikeExport():

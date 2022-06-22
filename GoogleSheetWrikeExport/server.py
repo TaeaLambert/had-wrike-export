@@ -1,5 +1,9 @@
+import os
 from flask import Flask, request, abort
 import main
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -18,4 +22,4 @@ def defultRun():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host=os.getenv("HOST"), port=os.getenv("PORT"), debug=True)

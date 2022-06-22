@@ -1,4 +1,4 @@
-def runGoogleSheetWrikeExport():
+def run_google_sheet_wrike_export():
     import utils
     import wrike
     import sheets

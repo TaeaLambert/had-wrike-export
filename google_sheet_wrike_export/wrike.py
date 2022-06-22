@@ -5,7 +5,10 @@ import utils
 
 class WrikeConfig:
     wrikekey = None
-    get_tasks_url = 'https://www.wrike.com/api/v4/tasks?pageSize=1000&fields=["customFields","superTaskIds","superParentIds","parentIds"]'
+    get_tasks_url = (
+        "https://www.wrike.com/api/v4/tasks?pageSize=1000&fields="
+        '["customFields","superTaskIds","superParentIds","parentIds"]'
+    )
     get_folders_url = "https://www.wrike.com/api/v4/folders"
 
     def __init__(self, wrike_key=None) -> None:

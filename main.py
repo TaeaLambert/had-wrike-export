@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, abort
-import main
+from GoogleSheetWrikeExport.function import *
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,7 +12,7 @@ app = Flask(__name__)
 def defultRun():
     print("Running GoogleSheetWrikeExport...")
     if request.method == "POST":
-        response = main.runGoogleSheetWrikeExport()
+        response = runGoogleSheetWrikeExport()
         if response == None:
             abort(400)
         else:

@@ -1,10 +1,9 @@
-import utils
-import wrike
-import sheets
-from pathlib import Path
-
-
 def runGoogleSheetWrikeExport():
+    import utils
+    import wrike
+    import sheets
+    from pathlib import Path
+
     folder_path = Path("./GoogleSheetWrikeExport")
     task_csv_path = Path(folder_path / "wrikeTasks.csv")
     folder_csv_path = Path(folder_path / "wrikeFolder.csv")

@@ -1,15 +1,13 @@
-# from GoogleSheetWrikeExport.getTaskFromWrike import getWrikeTasks, writeToJson
 import utils
 import wrike
 import sheets
-import os
 from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
 
 
-def main():
+def runGoogleSheetWrikeExport():
     folder_path = Path("./GoogleSheetWrikeExport")
     task_csv_path = Path(folder_path / "wrikeTasks.csv")
     folder_csv_path = Path(folder_path / "wrikeFolder.csv")
@@ -39,7 +37,5 @@ def main():
     print("Tasks written")
     sheets.write_folders(folder_list)
     print("Folders written")
-
-
-if __name__ == "__main__":
-    main()
+    print("Done!")
+    return "success"

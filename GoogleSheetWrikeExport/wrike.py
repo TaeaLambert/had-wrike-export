@@ -58,7 +58,11 @@ def get_folders(wrike_config=None):
     folder_json = response.json()["data"]
     response_array = []
     for folder in folder_json:
+        # ['IEACTPDZI4NOQZLA']
         response_array.append(
-            {"parent folder id": folder["id"], "folder title": folder["title"]}
+            {
+                "parent folder id": "['" + folder["id"] + "']",
+                "folder title": folder["title"],
+            }
         )
     return response_array

@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 @app.route("/googleSheetWrikeExport", methods=["POST"])
 def defultRun():
-    print("Running GoogleSheetWrikeExport...")
+    print("Running run_google_sheet_wrike_export...")
     if request.method == "POST":
         response = run_google_sheet_wrike_export()
         if response is None:

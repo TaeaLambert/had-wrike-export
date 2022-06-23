@@ -8,6 +8,12 @@ load_dotenv()
 app = Flask(__name__)
 
 
+@app.route("/", methods=["GET"])
+def index():
+    print("in index")
+    return "had-wrike-google-sheet-export is running", 200
+
+
 @app.route("/googleSheetWrikeExport", methods=["POST"])
 def default_run():
     print("Running run_google_sheet_wrike_export...")

@@ -1,4 +1,10 @@
 import os
+import google.auth
+
+
+def google_crential_env_to_file():
+    with open(os.getenv("CONFIG_LOCATION"), "w") as f:
+        f.write(os.getenv("GOOGLE_APPLICATION_CREDENTIALS"))
 
 
 def write_tasks(data):

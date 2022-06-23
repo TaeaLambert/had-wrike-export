@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 
 @app.route("/googleSheetWrikeExport", methods=["POST"])
-def defultRun():
+def default_run():
     print("Running run_google_sheet_wrike_export...")
     if request.method == "POST":
         response = run_google_sheet_wrike_export()
@@ -22,4 +22,6 @@ def defultRun():
 
 
 if __name__ == "__main__":
-    app.run(host=os.getenv("HOST"), port=os.getenv("PORT"), debug=True)
+    app.run(
+        host=os.getenv("HOST"), port=os.getenv("PORT"), debug=os.getenv("FLASK_DEBUG")
+    )

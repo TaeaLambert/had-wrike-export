@@ -1,24 +1,24 @@
 def run_google_sheet_wrike_export():
-    import utils
-    import wrike
-    import sheets
+    import google_sheet_wrike_export.utils as utils
+    import google_sheet_wrike_export.wrike as wrike
+    import google_sheet_wrike_export.sheets as sheets
     from pathlib import Path
 
-    folder_path = Path("./GoogleSheetWrikeExport")
+    folder_path = Path("./google_sheet_wrike_export")
     task_csv_path = Path(folder_path / "wrikeTasks.csv")
     folder_csv_path = Path(folder_path / "wrikeFolder.csv")
 
-    # get data from Wrike
-    print("Getting data from Wrike...")
-    wrike_task_array = wrike.get_tasks()
-    print("Tasks loaded")
-    wrike_folder_array = wrike.get_folders()
-    print("Folders loaded")
+    # # get data from Wrike
+    # print("Getting data from Wrike...")
+    # wrike_task_array = wrike.get_tasks()
+    # print("Tasks loaded")
+    # wrike_folder_array = wrike.get_folders()
+    # print("Folders loaded")
 
-    # save data to json file
-    utils.write_to_json(wrike_task_array, folder_path / "wrikeTasks.json")
-    # save data to json file
-    utils.write_to_json(wrike_folder_array, folder_path / "wrikeFolders.json")
+    # # save data to json file
+    # utils.write_to_json(wrike_task_array, folder_path / "wrikeTasks.json")
+    # # save data to json file
+    # utils.write_to_json(wrike_folder_array, folder_path / "wrikeFolders.json")
 
     # format data in a way that i can use it in Google Sheets
     utils.json_to_csv(folder_path / "wrikeTasks.json", task_csv_path)

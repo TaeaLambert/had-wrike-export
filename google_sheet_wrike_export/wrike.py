@@ -1,6 +1,6 @@
 import os
 import requests
-import utils
+import google_sheet_wrike_export.utils as utils
 
 
 class WrikeConfig:
@@ -28,10 +28,12 @@ def get_tasks(wrike_config=None):
     if wrike_config is None:
         wrike_config = WrikeConfig()
     wrike_config.add_params("&updatedDate=" + utils.get_wrike_queary_dates())
+    print(wrike_config.get_tasks_url)
     response = requests.get(
         wrike_config.get_tasks_url, headers=wrike_config.get_header()
     )
     response_json = response.json()
+    print(response.json())
     response_array = response_json["data"]
     i = 1000
     while True:

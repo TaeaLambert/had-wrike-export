@@ -1,7 +1,6 @@
 import os
 import gspread
-import google.auth
-import google_sheet_wrike_export.config as config
+from google_sheet_wrike_export import config
 
 
 def google_crential_env_to_file():

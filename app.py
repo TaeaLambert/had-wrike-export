@@ -2,7 +2,6 @@ import os
 from flask import Flask, request, abort
 from google_sheet_wrike_export.function import run_google_sheet_wrike_export
 from dotenv import load_dotenv
-from pathlib import Path
 
 load_dotenv()
 

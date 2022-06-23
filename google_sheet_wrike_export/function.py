@@ -1,6 +1,6 @@
-import google_sheet_wrike_export.utils as utils
-import google_sheet_wrike_export.wrike as wrike
-import google_sheet_wrike_export.sheets as sheets
+from google_sheet_wrike_export import utils
+from google_sheet_wrike_export import wrike
+from google_sheet_wrike_export import sheets
 from pathlib import Path
 
 

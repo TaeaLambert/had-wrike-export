@@ -1,6 +1,6 @@
 import os
 import requests
-import google_sheet_wrike_export.utils as utils
+from google_sheet_wrike_export import utils
 
 
 class WrikeConfig:
@@ -37,11 +37,11 @@ def get_tasks(wrike_config=None):
     response_array = response_json["data"]
     i = 1000
     while True:
-        nextPageToken = response_json.get("nextPageToken")
+        next_page_token = response_json.get("nextPageToken")
         print(str(i) + " tasks loaded")
-        if nextPageToken:
+        if next_page_token:
             response = requests.get(
-                wrike_config.get_tasks_url + "&nextPageToken=" + nextPageToken,
+                wrike_config.get_tasks_url + "&nextPageToken=" + next_page_token,
                 headers=wrike_config.get_header(),
             )
             response_json = response.json()

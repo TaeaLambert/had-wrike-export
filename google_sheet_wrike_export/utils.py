@@ -8,7 +8,7 @@ from dateutil.relativedelta import relativedelta
 
 def write_to_json(data, path):
     # write data to a json file
-    with open(path, "w") as outfile:
+    with open(path, "w", encoding="utf8") as outfile:
         json.dump(data, outfile)
     return "done"
 

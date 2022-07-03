@@ -86,7 +86,9 @@ def get_contacts(wrike_config=None):
     response_array = []
     for contact in contact_json:
         print(contact)
-        contact_id = contact["profiles"][0]["accountId"]
+        contact_ids = contact["profiles"][0]
+        print(contact_ids)
+        contact_id = contact_ids["accountId"]
         f_name = contact["firstName"]
         l_name = contact["lastName"]
 

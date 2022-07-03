@@ -11,6 +11,8 @@ class WrikeConfig:
     )
     get_folders_url = "https://www.wrike.com/api/v4/folders"
 
+    get_contacts_url = "https://www.wrike.com/api/v4/contacts"
+
     def __init__(self, wrike_key=None) -> None:
         if not wrike_key:
             self.wrikekey = os.getenv("WRIKE_KEY")
@@ -68,6 +70,26 @@ def get_folders(wrike_config=None):
             {
                 "parent folder id": "['" + folder["id"] + "']",
                 "folder title": folder["title"],
+            }
+        )
+    return response_array
+
+
+def get_contacts(wrike_config=None):
+    if wrike_config is None:
+        wrike_config = WrikeConfig()
+
+    response = requests.get(
+        wrike_config.get_contacts_url, headers=wrike_config.get_header()
+    )
+    contact_json = response.json()["data"]
+    response_array = []
+    for contact in contact_json:
+        # ['IEACTPDZI4NOQZLA']
+        response_array.append(
+            {
+                "Contact ID": "['" + contact["profiles"]["accountId"] + "']",
+                "Name": "['" + contact["firstName"] + " " + contact["lastName"] + "']",
             }
         )
     return response_array

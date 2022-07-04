@@ -37,11 +37,11 @@ def run_google_sheet_wrike_export():
 
     sheets.google_crential_env_to_file()
     print("Writing data to Google Sheets...")
-    sheets.write_tasks(csv_list)
-    print("Tasks written")
     sheets.write_folders(folder_list)
     print("Folders written")
     sheets.write_contacts(contact_list)
     print("Contacts written")
+    sheets.write_tasks(csv_list)
+    print("Tasks written")
     print("Done!")
     return "success"

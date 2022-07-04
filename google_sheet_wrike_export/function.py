@@ -16,6 +16,7 @@ def run_google_sheet_wrike_export():
     wrike_folder_array = wrike.get_folders()
     print("Folders loaded")
     wrike_contacts_array = wrike.get_contacts()
+    print("Contacts loaded")
 
     # save data to json file
     utils.write_to_json(wrike_task_array, folder_path / "wrikeTasks.json")
@@ -40,7 +41,7 @@ def run_google_sheet_wrike_export():
     print("Tasks written")
     sheets.write_folders(folder_list)
     print("Folders written")
-    sheets.write_folders(contact_list)
+    sheets.write_contacts(contact_list)
     print("Contacts written")
     print("Done!")
     return "success"

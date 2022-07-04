@@ -35,7 +35,7 @@ def get_tasks(wrike_config=None):
         wrike_config.get_tasks_url, headers=wrike_config.get_header()
     )
     response_json = response.json()
-    print(response.json())
+    # print(response.json())
     response_array = response_json["data"]
     i = 1000
     while True:

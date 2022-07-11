@@ -87,10 +87,10 @@ def get_workflows(wrike_config=None):
     folder_json = response.json()
     response_array = []
     for response in folder_json.get("data"):
-        for items in response.get("customStatuses"):
+        for items in response["customStatuses"]:
             dict = {}
-            dict["id"] = items.get("id")
-            dict["name"] = items.get("name")
+            dict["id"] = items["id"]
+            dict["name"] = items["name"]
             response_array.append(dict)
     return response_array
 

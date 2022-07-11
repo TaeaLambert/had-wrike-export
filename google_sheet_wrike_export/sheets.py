@@ -30,3 +30,11 @@ def write_contacts(data):
     sh.clear()
     sh.update("A1", data)
     return "done"
+
+
+def write_folders(data):
+    gc = gspread.service_account(config.CONFIG_LOCATION)
+    sh = gc.open("H&D | Wrike Task Export | Working").worksheet("WrikeStatusoutput")
+    sh.clear()
+    sh.update("A1", data)
+    return "done"

@@ -13,6 +13,8 @@ class WrikeConfig:
 
     get_contacts_url = "https://www.wrike.com/api/v4/contacts"
 
+    get_workflow_url = "https://www.wrike.com/api/v4/workflows"
+
     def __init__(self, wrike_key=None) -> None:
         if not wrike_key:
             self.wrikekey = os.getenv("WRIKE_KEY")
@@ -72,6 +74,24 @@ def get_folders(wrike_config=None):
                 "folder title": folder["title"],
             }
         )
+    return response_array
+
+
+def get_workflows(wrike_config=None):
+    if wrike_config is None:
+        wrike_config = WrikeConfig()
+
+    response = requests.get(
+        wrike_config.get_folders_url, headers=wrike_config.get_header()
+    )
+    folder_json = response.json()["data"]
+    response_array = []
+    for response in folder_json.get("data"):
+        for items in response.get("customStatuses"):
+            dict = {}
+            dict["id"] = items.get("id")
+            dict["name"] = items.get("name")
+            response_array.append(dict)
     return response_array
 
 

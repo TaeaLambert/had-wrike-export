@@ -84,7 +84,7 @@ def get_workflows(wrike_config=None):
     response = requests.get(
         wrike_config.get_folders_url, headers=wrike_config.get_header()
     )
-    folder_json = response.json()["data"]
+    folder_json = response.json()
     response_array = []
     for response in folder_json.get("data"):
         for items in response.get("customStatuses"):

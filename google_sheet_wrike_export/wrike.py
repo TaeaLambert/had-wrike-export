@@ -91,6 +91,7 @@ def get_workflows(wrike_config=None):
             dict = {}
             dict["id"] = items["id"]
             dict["name"] = items["name"]
+            dict["workflow Type"] = response["name"]
             response_array.append(dict)
     return response_array
 

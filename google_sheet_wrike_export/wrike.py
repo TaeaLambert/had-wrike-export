@@ -62,7 +62,7 @@ def get_folders(wrike_config=None):
         wrike_config = WrikeConfig()
 
     response = requests.get(
-        wrike_config.get_workflow_url, headers=wrike_config.get_header()
+        wrike_config.get_folders_url, headers=wrike_config.get_header()
     )
     folder_json = response.json()["data"]
     response_array = []
@@ -82,7 +82,7 @@ def get_workflows(wrike_config=None):
         wrike_config = WrikeConfig()
 
     response = requests.get(
-        wrike_config.get_folders_url, headers=wrike_config.get_header()
+        wrike_config.get_workflow_url, headers=wrike_config.get_header()
     )
     folder_json = response.json()
     response_array = []

@@ -1,6 +1,14 @@
 from google_sheet_wrike_export import utils, wrike, sheets
 from pathlib import Path
 
+from google_sheet_wrike_export.mongodb import get_all_collections_mongodb
+
+
+def run_mongodb_export():
+    print("Running mongodb_export...")
+    print(get_all_collections_mongodb())
+    return "success"
+
 
 def run_google_sheet_wrike_export():
 

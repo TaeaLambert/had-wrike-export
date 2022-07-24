@@ -1,6 +1,9 @@
 import os
 from flask import Flask, request, abort
-from google_sheet_wrike_export.function import run_google_sheet_wrike_export
+from google_sheet_wrike_export.function import (
+    run_google_sheet_wrike_export,
+    run_mongodb_export,
+)
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -19,6 +22,18 @@ def default_run():
     print("Running run_google_sheet_wrike_export...")
     if request.method == "POST":
         response = run_google_sheet_wrike_export()
+        if response is None:
+            abort(400)
+        else:
+            return "success", 200
+    else:
+        abort(405)
+
+
+@app.route("/mongodb_export", methods=["POST"])
+def mongodb_export():
+    if request.method == "POST":
+        response = run_mongodb_export()
         if response is None:
             abort(400)
         else:

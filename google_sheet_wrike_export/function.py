@@ -1,13 +1,50 @@
+import os
 from google_sheet_wrike_export import utils, wrike, sheets
 from pathlib import Path
 
-from google_sheet_wrike_export.mongodb import get_all_collections_mongodb
+from google_sheet_wrike_export.mongodb import (
+    get_all_collections_mongodb,
+    get_all_portal_ids_in_collection,
+)
 
 
 def run_mongodb_export():
     print("Running mongodb_export...")
-    print(get_all_collections_mongodb())
+    list_of_collections = get_all_collections_mongodb()
+    json_holder = {}
+    collection_max_length = 0
+    for collection in list_of_collections:
+        print(collection)
+        portal_ids = get_all_portal_ids_in_collection(collection)
+        if len(portal_ids) > collection_max_length:
+            collection_max_length = len(portal_ids)
+        json_holder[collection] = portal_ids
+    for portal_ids in json_holder.values():
+        while len(portal_ids) < collection_max_length:
+            portal_ids.append("")
+
+    folder_path = Path("./microapps_portal_ids")
+    utils.write_to_json(json_holder, folder_path / "mongodb_export.json")
+    utils.json_to_csv(
+        folder_path / "mongodb_export.json", folder_path / "mongodb_export.csv"
+    )
+
+    sheets.google_crential_env_to_file()
+    sheets.write_to_google_sheet(
+        utils.csv_to_list(folder_path / "mongodb_export.csv"),
+        os.getenv("MICROAPP_SHEET"),
+        "MongodbExport",
+    )
+
     return "success"
+
+
+def json_to_list(json_holder):
+    list_of_ids = []
+    for collection in json_holder:
+        for portal_id in json_holder[collection]:
+            list_of_ids.append(portal_id)
+    return list_of_ids
 
 
 def run_google_sheet_wrike_export():

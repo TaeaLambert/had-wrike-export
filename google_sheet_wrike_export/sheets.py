@@ -8,6 +8,14 @@ def google_crential_env_to_file():
         f.write(os.getenv("GOOGLE_APPLICATION_CREDENTIALS"))
 
 
+def write_to_google_sheet(data, workbook, sheet):
+    gc = gspread.service_account(config.CONFIG_LOCATION)
+    sh = gc.open(workbook).worksheet(sheet)
+    sh.clear()
+    sh.update("A1", data)
+    return "done"
+
+
 def write_tasks(data):
     gc = gspread.service_account(config.CONFIG_LOCATION)
     sh = gc.open("H&D | Wrike Task Export | Working").worksheet("wrikeTaskoutput")

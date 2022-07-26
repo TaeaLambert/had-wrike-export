@@ -1,22 +1,41 @@
-# HAD-WRIKE-GOOGLE-SHEET-EXPORT
+# HAD-GOOGLE-SHEET-EXPORT V3.0.0
 
-&&
+## Description
 
-# HAD-MICROAPP-PORTALID-EXPORT
+```
+This program contains 3 funtions:
+1. export data from wrike into google sheets (tasks, folders, contacts and workflows)
+2. export all products from the H&D hubspot portal and export them to google sheets
+3. export all portal ids that are contained within the MicroApp database and there collection name (table name)
+```
 
 ## Requirments for running the porject locally
 
 Create a .env file
 
 ```
-WRIKE_KEY=""
-CONFIG_LOCATION = ""
-FLASK_ENV = ""
+# Global
+SENTRY_DSN = ""
+GOOGLE_APPLICATION_CREDENTIALS = ""
+FLASK_ENV = "development"
 FLASK_DEBUG = "true"
 HOST = "localhost"
 PORT = "8080"
-GOOGLE_APPLICATION_CREDENTIALS = ''
+
+# WRIKE
+WRIKE_KEY=""
+WRIKE_FILE = ""
+
+# MICRO APPS
+DATABASE_URL = ""
+MONGO_DB = ""
+CA_CERT = ""
+MICROAPP_FILE = ""
+MICROAPP_SHEET = ""
+
+# PRODUCTS
+PRIVATE_APP_KEY = ""
+GOOGLE_WORKBOOK = ""
+GOOGLE_SHEET = ""
 
 ```
-
-https://docs.gspread.org/en/latest/oauth2.html

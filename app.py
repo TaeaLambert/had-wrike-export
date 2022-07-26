@@ -62,6 +62,7 @@ def default_run():
 
 @app.route("/mongodb_export", methods=["POST"])
 def mongodb_export():
+    print("Running mongodb_export...")
     if request.method == "POST":
         response = run_mongodb_export()
         if response is None:
@@ -74,6 +75,7 @@ def mongodb_export():
 
 @app.route("/write_products_to_google_sheet", methods=["POST"])
 def run():
+    print("Running write_products_to_google_sheet...")
     if request.method == "POST":
         response = write_products_to_google_sheet()
         if response is None:

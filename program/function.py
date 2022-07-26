@@ -64,17 +64,19 @@ def run_google_sheet_wrike_export():
 
     # save data to json file
     files.write_to_json(wrike_task_array, folder_path / "wrikeTasks.json")
+    wrike_task_array = []
+    files.json_to_csv(folder_path / "wrikeTasks.json", task_csv_path)
     # save data to json file
     files.write_to_json(wrike_folder_array, folder_path / "wrikeFolders.json")
+    wrike_folder_array = []
+    files.json_to_csv(folder_path / "wrikeFolders.json", folder_csv_path)
     # save data to json file
     files.write_to_json(wrike_contacts_array, folder_path / "wrikeContacts.json")
+    wrike_contacts_array = []
+    files.json_to_csv(folder_path / "wrikeContacts.json", contact_csv_path)
     # save data to json file
     files.write_to_json(wrike_workflows_array, folder_path / "wrikeWorkflows.json")
-
-    # format data in a way that i can use it in Google Sheets
-    files.json_to_csv(folder_path / "wrikeTasks.json", task_csv_path)
-    files.json_to_csv(folder_path / "wrikeFolders.json", folder_csv_path)
-    files.json_to_csv(folder_path / "wrikeContacts.json", contact_csv_path)
+    wrike_workflows_array = []
     files.json_to_csv(folder_path / "wrikeWorkflows.json", workflow_csv_path)
 
     # # load data from json file

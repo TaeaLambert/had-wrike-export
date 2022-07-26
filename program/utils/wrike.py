@@ -1,6 +1,8 @@
 import os
 import requests
-from google_sheet_wrike_export import utils
+import json
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 
 class WrikeConfig:
@@ -31,7 +33,7 @@ class WrikeConfig:
 def get_tasks(wrike_config=None):
     if wrike_config is None:
         wrike_config = WrikeConfig()
-    wrike_config.add_params("&updatedDate=" + utils.get_wrike_queary_dates())
+    wrike_config.add_params("&updatedDate=" + get_wrike_queary_dates())
     print(wrike_config.get_tasks_url)
     response = requests.get(
         wrike_config.get_tasks_url, headers=wrike_config.get_header()
@@ -124,3 +126,31 @@ def get_contacts(wrike_config=None):
             }
         )
     return response_array
+
+
+def relative_date(years: int = 0, months: int = 0, day: int = 0) -> datetime:
+
+    return datetime.today().replace(
+        hour=0, minute=0, second=0, microsecond=0
+    ) + relativedelta(years=years, months=months, days=day)
+
+
+def get_wrike_queary_dates(ahead: int = 6, past: int = 13) -> str:
+    """
+    This function takes the number of months ahead and the number of months past
+    Both arguments are positive integers and default to 6 and 13 respectively
+    """
+    print("Getting Wrike query dates...")
+    print("Ahead:", ahead)
+    print("Past:", past)
+    six_month_ahead = relative_date(months=ahead)
+    thirteen_month_behind = relative_date(months=-past)
+
+    print(six_month_ahead)
+    print(thirteen_month_behind)
+    return json.dumps(
+        {
+            "start": thirteen_month_behind.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "end": six_month_ahead.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        }
+    )

@@ -1,6 +1,6 @@
 import os
 import gspread
-from google_sheet_wrike_export import config
+from program.utils import config
 
 
 def google_crential_env_to_file():
@@ -18,7 +18,7 @@ def write_to_google_sheet(data, workbook, sheet):
 
 def write_tasks(data):
     gc = gspread.service_account(config.CONFIG_LOCATION)
-    sh = gc.open("H&D | Wrike Task Export | Working").worksheet("wrikeTaskoutput")
+    sh = gc.open(os.getenv("WRIKE_FILE")).worksheet("wrikeTaskoutput")
     sh.clear()
     sh.update("A1", data)
     return "done"
@@ -26,7 +26,7 @@ def write_tasks(data):
 
 def write_folders(data):
     gc = gspread.service_account(config.CONFIG_LOCATION)
-    sh = gc.open("H&D | Wrike Task Export | Working").worksheet("wrikeFolderoutput")
+    sh = gc.open(os.getenv("WRIKE_FILE")).worksheet("wrikeFolderoutput")
     sh.clear()
     sh.update("A1", data)
     return "done"
@@ -34,7 +34,7 @@ def write_folders(data):
 
 def write_contacts(data):
     gc = gspread.service_account(config.CONFIG_LOCATION)
-    sh = gc.open("H&D | Wrike Task Export | Working").worksheet("wrikeContactoutput")
+    sh = gc.open(os.getenv("WRIKE_FILE")).worksheet("wrikeContactoutput")
     sh.clear()
     sh.update("A1", data)
     return "done"
@@ -42,7 +42,7 @@ def write_contacts(data):
 
 def write_workflow(data):
     gc = gspread.service_account(config.CONFIG_LOCATION)
-    sh = gc.open("H&D | Wrike Task Export | Working").worksheet("WrikeStatusoutput")
+    sh = gc.open(os.getenv("WRIKE_FILE")).worksheet("WrikeStatusoutput")
     sh.clear()
     sh.update("A1", data)
     return "done"

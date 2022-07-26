@@ -55,28 +55,28 @@ def run_google_sheet_wrike_export():
     # get data from Wrike
     print("Getting data from Wrike...")
     wrike_task_array = wrike.get_tasks()
-    print("Tasks loaded")
-    wrike_folder_array = wrike.get_folders()
-    print("Folders loaded")
-    wrike_contacts_array = wrike.get_contacts()
-    print("Contacts loaded")
-    wrike_workflows_array = wrike.get_workflows()
-
-    # save data to json file
     files.write_to_json(wrike_task_array, folder_path / "wrikeTasks.json")
     wrike_task_array = []
-    files.json_to_csv(folder_path / "wrikeTasks.json", task_csv_path)
-    # save data to json file
+    print("Tasks loaded & saved")
+
+    wrike_folder_array = wrike.get_folders()
     files.write_to_json(wrike_folder_array, folder_path / "wrikeFolders.json")
     wrike_folder_array = []
-    files.json_to_csv(folder_path / "wrikeFolders.json", folder_csv_path)
-    # save data to json file
+    print("Folders loaded & saved")
+
+    wrike_contacts_array = wrike.get_contacts()
     files.write_to_json(wrike_contacts_array, folder_path / "wrikeContacts.json")
     wrike_contacts_array = []
-    files.json_to_csv(folder_path / "wrikeContacts.json", contact_csv_path)
-    # save data to json file
+    print("Contacts loaded & saved")
+
+    wrike_workflows_array = wrike.get_workflows()
     files.write_to_json(wrike_workflows_array, folder_path / "wrikeWorkflows.json")
     wrike_workflows_array = []
+    print("Workflows loaded & saved")
+
+    files.json_to_csv(folder_path / "wrikeTasks.json", task_csv_path)
+    files.json_to_csv(folder_path / "wrikeFolders.json", folder_csv_path)
+    files.json_to_csv(folder_path / "wrikeContacts.json", contact_csv_path)
     files.json_to_csv(folder_path / "wrikeWorkflows.json", workflow_csv_path)
 
     # # load data from json file

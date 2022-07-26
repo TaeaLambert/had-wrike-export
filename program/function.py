@@ -29,7 +29,7 @@ def run_mongodb_export():
         while len(portal_ids) < collection_max_length:
             portal_ids.append("")
 
-    folder_path = Path("./microapps_portal_ids")
+    folder_path = Path("./CSV")
     files.write_to_json(json_holder, folder_path / "mongodb_export.json")
     files.json_to_csv(
         folder_path / "mongodb_export.json", folder_path / "mongodb_export.csv"

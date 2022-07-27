@@ -74,29 +74,21 @@ def hubspot_request(
                 response = HubspotResponse(response, access_token)
                 return response
             case "POST":
-                response = requests.post(
-                    url, headers=header, json=kwargs.get("data", {})
-                )
+                response = requests.post(url, headers=header, json=kwargs.get("data", {}))
                 response = HubspotResponse(response, access_token)
                 return response
             case "PUT":
-                response = requests.put(
-                    url, headers=header, json=kwargs.get("data", {})
-                )
+                response = requests.put(url, headers=header, json=kwargs.get("data", {}))
                 response = HubspotResponse(response, access_token)
                 return response
             case "PATCH":
-                response = requests.patch(
-                    url, headers=header, json=kwargs.get("data", {})
-                )
+                response = requests.patch(url, headers=header, json=kwargs.get("data", {}))
                 response = HubspotResponse(response, access_token)
                 return response
     except HubspotAPILimitReached:
         if nb_retry > 10:
             logging.error(f"After {nb_retry} we are still getting errors")
-            raise HubspotAPILimitReached(
-                f"After {nb_retry} we are still getting errors", 429
-            )
+            raise HubspotAPILimitReached(f"After {nb_retry} we are still getting errors", 429)
         logging.info("sleeping for 5 seconds")
         sleep(5)
         logging.info("retrying")

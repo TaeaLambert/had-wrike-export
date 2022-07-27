@@ -87,6 +87,4 @@ def run():
 
 
 if __name__ == "__main__":
-    app.run(
-        host=os.getenv("HOST"), port=os.getenv("PORT"), debug=os.getenv("FLASK_DEBUG")
-    )
+    app.run(host=os.getenv("HOST"), port=os.getenv("PORT"), debug=os.getenv("FLASK_DEBUG"))

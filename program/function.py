@@ -31,9 +31,7 @@ def run_mongodb_export():
 
     folder_path = Path("./CSV")
     files.write_to_json(json_holder, folder_path / "mongodb_export.json")
-    files.json_to_csv(
-        folder_path / "mongodb_export.json", folder_path / "mongodb_export.csv"
-    )
+    files.json_to_csv(folder_path / "mongodb_export.json", folder_path / "mongodb_export.csv")
     sheets.google_crential_env_to_file()
     sheets.write_to_google_sheet(
         files.csv_to_list(folder_path / "mongodb_export.csv"),
@@ -109,11 +107,7 @@ def write_products_to_google_sheet():
     JSON_FILE = "./CSV/products.json"
     CSV_FILE = "./CSV/products.csv"
 
-    list_for_google_sheets = create_csv_and_convert_to_list(
-        JSON_FILE, CSV_FILE, results
-    )
+    list_for_google_sheets = create_csv_and_convert_to_list(JSON_FILE, CSV_FILE, results)
     google_crential_env_to_file()
-    write_to_google_sheet(
-        list_for_google_sheets, os.getenv("GOOGLE_WORKBOOK"), os.getenv("GOOGLE_SHEET")
-    )
+    write_to_google_sheet(list_for_google_sheets, os.getenv("GOOGLE_WORKBOOK"), os.getenv("GOOGLE_SHEET"))
     return products, 200

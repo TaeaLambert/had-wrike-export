@@ -33,9 +33,7 @@ def format_products(products: list[dict]):
         object_holder["Exclusions"] = result["properties"]["exclusions"]
         # Last Modified Date
         new_updatedAt = datetime.strptime(result["updatedAt"], "%Y-%m-%dT%H:%M:%S.%fZ")
-        object_holder["Last Modified Date"] = new_updatedAt.strftime(
-            "%Y-%m-%d %H:%M:%S"
-        )
+        object_holder["Last Modified Date"] = new_updatedAt.strftime("%Y-%m-%d %H:%M:%S")
         # Name
         object_holder["Name"] = result["properties"]["name"]
         # Object ID

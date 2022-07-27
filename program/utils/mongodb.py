@@ -17,7 +17,5 @@ def get_all_portal_ids_in_collection(collection):
         authSource="admin",
     )
     db = client[os.getenv("MONGO_DB")]
-    list_of_portal_ids = db[collection].distinct("portal_id") + db[collection].distinct(
-        "portalId"
-    )
+    list_of_portal_ids = db[collection].distinct("portal_id") + db[collection].distinct("portalId")
     return list(dict.fromkeys(list_of_portal_ids))

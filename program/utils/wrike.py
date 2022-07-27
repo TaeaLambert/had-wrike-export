@@ -35,9 +35,7 @@ def get_tasks(wrike_config=None):
         wrike_config = WrikeConfig()
     wrike_config.add_params("&updatedDate=" + get_wrike_queary_dates())
     print(wrike_config.get_tasks_url)
-    response = requests.get(
-        wrike_config.get_tasks_url, headers=wrike_config.get_header()
-    )
+    response = requests.get(wrike_config.get_tasks_url, headers=wrike_config.get_header())
     response_json = response.json()
     # print(response.json())
     response_array = response_json["data"]
@@ -63,9 +61,7 @@ def get_folders(wrike_config=None):
     if wrike_config is None:
         wrike_config = WrikeConfig()
 
-    response = requests.get(
-        wrike_config.get_folders_url, headers=wrike_config.get_header()
-    )
+    response = requests.get(wrike_config.get_folders_url, headers=wrike_config.get_header())
     folder_json = response.json()["data"]
     response_array = []
     for folder in folder_json:
@@ -83,9 +79,7 @@ def get_workflows(wrike_config=None):
     if wrike_config is None:
         wrike_config = WrikeConfig()
 
-    response = requests.get(
-        wrike_config.get_workflow_url, headers=wrike_config.get_header()
-    )
+    response = requests.get(wrike_config.get_workflow_url, headers=wrike_config.get_header())
     folder_json = response.json()
     response_array = []
     for response in folder_json.get("data"):
@@ -102,9 +96,7 @@ def get_contacts(wrike_config=None):
     if wrike_config is None:
         wrike_config = WrikeConfig()
 
-    response = requests.get(
-        wrike_config.get_contacts_url, headers=wrike_config.get_header()
-    )
+    response = requests.get(wrike_config.get_contacts_url, headers=wrike_config.get_header())
     contact_json = response.json()["data"]
     response_array = []
     for contact in contact_json:
@@ -130,9 +122,9 @@ def get_contacts(wrike_config=None):
 
 def relative_date(years: int = 0, months: int = 0, day: int = 0) -> datetime:
 
-    return datetime.today().replace(
-        hour=0, minute=0, second=0, microsecond=0
-    ) + relativedelta(years=years, months=months, days=day)
+    return datetime.today().replace(hour=0, minute=0, second=0, microsecond=0) + relativedelta(
+        years=years, months=months, days=day
+    )
 
 
 def get_wrike_queary_dates(ahead: int = 6, past: int = 13) -> str:

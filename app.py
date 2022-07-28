@@ -1,4 +1,5 @@
 import logging
+import psutil
 import os
 from flask import Flask
 from dotenv import load_dotenv
@@ -44,7 +45,12 @@ sentry_sdk.init(
 @app.route("/", methods=["GET"])
 def index():
     print("in index")
-    return "[had-wrike-google-sheet-export] is running", 200
+    return (
+        "[had-wrike-google-sheet-export] is running\n"
+        + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2))
+        + " MB",
+        200,
+    )
 
 
 @app.route("/googleSheetWrikeExport", methods=["POST"])

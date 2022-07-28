@@ -32,6 +32,14 @@ def write_folders(data):
     return "done"
 
 
+def write_projects(data):
+    gc = gspread.service_account(config.CONFIG_LOCATION)
+    sh = gc.open(os.getenv("WRIKE_FILE")).worksheet("wrikeProjectoutput")
+    sh.clear()
+    sh.update("A1", data)
+    return "done"
+
+
 def write_contacts(data):
     gc = gspread.service_account(config.CONFIG_LOCATION)
     sh = gc.open(os.getenv("WRIKE_FILE")).worksheet("wrikeContactoutput")

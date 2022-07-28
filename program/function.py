@@ -39,6 +39,10 @@ def run_mongodb_export():
         os.getenv("MICROAPP_FILE"),
         os.getenv("MICROAPP_SHEET"),
     )
+    print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
+    del list_of_collections
+    del json_holder
+    print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
     return "success"
 
 
@@ -130,11 +134,15 @@ def write_products_to_google_sheet():
     properties = get_all_product_properties()
     products = get_all_products(properties)
     results = format_products(products)
-
     JSON_FILE = "./CSV/products.json"
     CSV_FILE = "./CSV/products.csv"
-
     list_for_google_sheets = create_csv_and_convert_to_list(JSON_FILE, CSV_FILE, results)
     google_crential_env_to_file()
     write_to_google_sheet(list_for_google_sheets, os.getenv("GOOGLE_WORKBOOK"), os.getenv("GOOGLE_SHEET"))
-    return products, 200
+    print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
+    del properties
+    del products
+    del results
+    del list_for_google_sheets
+    print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
+    return "completed", 200

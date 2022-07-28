@@ -5,6 +5,7 @@ from program.utils.files import csv_to_list, json_to_csv, write_to_json
 def create_csv_and_convert_to_list(JSON_FILE, CSV_FILE, data):
     write_to_json(data, JSON_FILE)
     json_to_csv(JSON_FILE, CSV_FILE)
+    del data
     list = csv_to_list(CSV_FILE)
     return list
 

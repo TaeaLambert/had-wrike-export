@@ -85,7 +85,7 @@ def get_folders(wrike_config=None):
         # ['IEACTPDZI4NOQZLA']
         response_array.append(
             {
-                "folder id": folder["id"],
+                "folder id": [{folder["id"]}],
                 "folder title": folder["title"],
             }
         )

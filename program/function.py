@@ -33,8 +33,8 @@ def run_mongodb_export():
     folder_path = Path("./CSV")
     files.write_to_json(json_holder, folder_path / "mongodb_export.json")
     files.json_to_csv(folder_path / "mongodb_export.json", folder_path / "mongodb_export.csv")
-    sheets.google_crential_env_to_file()
-    sheets.write_to_google_sheet(
+    google_crential_env_to_file()
+    write_to_google_sheet(
         files.csv_to_list(folder_path / "mongodb_export.csv"),
         os.getenv("MICROAPP_FILE"),
         os.getenv("MICROAPP_SHEET"),
@@ -48,7 +48,7 @@ def run_mongodb_export():
 
 # WRIKE:
 def run_google_sheet_wrike_export():
-
+    google_crential_env_to_file()
     folder_path = Path("./CSV")
     task_csv_path = Path(folder_path / "wrikeTasks.csv")
     task_formatted_csv_path = Path(folder_path / "wrikeTasks_formatted.csv")
@@ -73,7 +73,7 @@ def run_google_sheet_wrike_export():
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
     del wrike_task_array
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
-    print("Tasks loaded & saved")
+    print("Formatted Tasks loaded & saved")
 
     wrike_folder_array = wrike.get_folders()
     files.write_to_json(wrike_folder_array, folder_path / "wrikeFolders.json")
@@ -110,7 +110,7 @@ def run_google_sheet_wrike_export():
     files.json_to_csv(folder_path / "wrikeContacts.json", contact_csv_path)
     files.json_to_csv(folder_path / "wrikeWorkflows.json", workflow_csv_path)
 
-    # # load data from json file
+    # load data from json file
     csv_list = files.csv_to_list(task_csv_path)
     csv_list_formatted = files.csv_to_list(task_formatted_csv_path)
     folder_list = files.csv_to_list(folder_csv_path)
@@ -130,7 +130,7 @@ def run_google_sheet_wrike_export():
     print("Contacts written")
     sheets.write_tasks(csv_list)
     print("Tasks written")
-    sheets.write_tasks(csv_list_formatted)
+    sheets.write_tasks_formatted(csv_list_formatted)
     print("Tasks_formatted written")
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
     del csv_list_formatted

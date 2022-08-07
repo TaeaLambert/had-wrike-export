@@ -93,6 +93,40 @@ def get_folders(wrike_config=None):
     return response_array
 
 
+def get_tasks_formatted(wrike_config=None):
+    if wrike_config is None:
+        wrike_config = WrikeConfig()
+    wrike_config.add_params("&updatedDate=" + get_wrike_queary_dates())
+    response = requests.get(wrike_config.get_tasks_url, headers=wrike_config.get_header())
+    response_json = response.json()["data"]
+    response_array = []
+    for folder in response_json:
+
+        # TODO : rest of custom fields
+        response_array.append(
+            {
+                # "(project) folder id": [f'{folder["id"]}'],
+                # "account id": folder["accountId"],
+                # "project title": folder["title"],
+                # "create date": folder["createdDate"],
+                # "update date": folder["updatedDate"],
+                # "discription": folder["description"],
+                # "permalink": folder["permalink"],
+                # "workflow": folder["workflowId"],
+                # "project author": datetor(folder["project"], "authorId"),
+                # "status": datetor(folder["project"], "status"),
+                # "custom status": datetor(folder["project"], "customStatusId"),
+                # "create Date": datetor(folder["project"], "createdDate"),
+                # "start Date": datetor(folder["project"], "startDate"),
+                # "sprint goal": datetor_array(folder["customFields"], "IEACTPDZJUABIBDV"),
+                # "budget points": datetor_array(folder["customFields"], "IEACTPDZJUABEXK3"),
+                # "actual points": datetor_array(folder["customFields"], "IEACTPDZJUAA7YIS"),
+                # "kickoff date": datetor_array(folder["customFields"], "IEACTPDZJUABAL4R"),
+            }
+        )
+    return response_array
+
+
 def get_projects(wrike_config=None):
     if wrike_config is None:
         wrike_config = WrikeConfig()

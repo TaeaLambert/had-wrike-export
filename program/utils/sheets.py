@@ -24,6 +24,14 @@ def write_tasks(data):
     return "done"
 
 
+def write_tasks_formatted(data):
+    gc = gspread.service_account(config.CONFIG_LOCATION)
+    sh = gc.open(os.getenv("WRIKE_FILE")).worksheet("wrikeTaskoutputFormatted")
+    sh.clear()
+    sh.update("A1", data)
+    return "done"
+
+
 def write_folders(data):
     gc = gspread.service_account(config.CONFIG_LOCATION)
     sh = gc.open(os.getenv("WRIKE_FILE")).worksheet("wrikeFolderoutput")

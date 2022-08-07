@@ -111,6 +111,8 @@ def get_tasks_formatted(wrike_config=None):
                     "Task title": task["title"],
                     "Parent Ids": "".join(map(str, task["parentIds"])),
                     "Super Parent Ids": "".join(map(str, task["superParentIds"])),
+                    "Importance": task["importance"],
+                    "Priority Id": task["priority"],
                     "Status": task["status"],
                     "Custom Status Id": datetor(task, "customStatusId"),
                     "Created Date": datetor(task, "createdDate"),

@@ -43,8 +43,6 @@ def get_tasks(wrike_config=None):
     i = 1000
     while True:
         next_page_token = response_json.get("nextPageToken")
-        print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
-        print(str(i) + " tasks loaded")
         if next_page_token:
             response = requests.get(
                 wrike_config.get_tasks_url + "&nextPageToken=" + next_page_token,

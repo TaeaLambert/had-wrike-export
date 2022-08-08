@@ -57,13 +57,16 @@ def run_google_sheet_wrike_export():
     contact_csv_path = Path(folder_path / "wrikeContact.csv")
     workflow_csv_path = Path(folder_path / "wrikeWorkflow.csv")
 
+    print("Getting data from Wrike...")
+    print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
     wrike_task = wrike.get_tasks()
     wrike_task_unformatted_array = wrike_task[0]
     wrike_task_formatted_array = wrike_task[1]
+    print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
     del wrike_task
+    print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
 
     # get data from Wrike
-    print("Getting data from Wrike...")
     files.write_to_json(wrike_task_unformatted_array, folder_path / "wrikeTasks.json")
     files.write_to_json(wrike_task_formatted_array, folder_path / "wrikeTasks_formatted.json")
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")

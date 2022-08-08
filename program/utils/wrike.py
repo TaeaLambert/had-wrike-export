@@ -152,7 +152,7 @@ def get_projects(wrike_config=None):
         # TODO : rest of custom fields
         response_array.append(
             {
-                "(project) folder id": [f'{folder["id"]}'],
+                "(project) folder id": folder["id"],
                 "account id": folder["accountId"],
                 "project title": folder["title"],
                 "create date": folder["createdDate"],

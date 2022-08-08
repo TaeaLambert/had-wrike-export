@@ -43,7 +43,7 @@ def run_mongodb_export():
     del list_of_collections
     del json_holder
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
-    return "success"
+    return "success", 200
 
 
 # WRIKE:
@@ -57,23 +57,20 @@ def run_google_sheet_wrike_export():
     contact_csv_path = Path(folder_path / "wrikeContact.csv")
     workflow_csv_path = Path(folder_path / "wrikeWorkflow.csv")
 
-    # get data from Wrike
-    print("Getting data from Wrike...")
-    wrike_task_array = wrike.get_tasks()
-    files.write_to_json(wrike_task_array, folder_path / "wrikeTasks.json")
-    print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
-    del wrike_task_array
-    print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
-    print("Tasks loaded & saved")
+    wrike_task = wrike.get_tasks()
+    wrike_task_unformatted_array = wrike_task[0]
+    wrike_task_formatted_array = wrike_task[1]
+    del wrike_task
 
     # get data from Wrike
     print("Getting data from Wrike...")
-    wrike_task_array = wrike.get_tasks_formatted()
-    files.write_to_json(wrike_task_array, folder_path / "wrikeTasks_formatted.json")
+    files.write_to_json(wrike_task_unformatted_array, folder_path / "wrikeTasks.json")
+    files.write_to_json(wrike_task_formatted_array, folder_path / "wrikeTasks_formatted.json")
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
-    del wrike_task_array
+    del wrike_task_unformatted_array
+    del wrike_task_formatted_array
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
-    print("Formatted Tasks loaded & saved")
+    print("Tasks loaded & saved")
 
     wrike_folder_array = wrike.get_folders()
     files.write_to_json(wrike_folder_array, folder_path / "wrikeFolders.json")
@@ -140,7 +137,7 @@ def run_google_sheet_wrike_export():
     del contact_list
     del workflow_list
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
-    return "success"
+    return "Completed", 200
 
 
 # PRODUCTS:

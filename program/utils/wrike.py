@@ -56,7 +56,7 @@ def get_tasks(wrike_config=None):
         else:
             break
 
-    return response_array
+    return [response_array, formatted_tasks(response_array)]
 
 
 def datetor(object: dict, key: str) -> str:
@@ -85,59 +85,40 @@ def get_folders(wrike_config=None):
         # ['IEACTPDZI4NOQZLA']
         response_array.append(
             {
-                "folder id": [f'{folder["id"]}'],
-                "folder title": folder["title"],
+                "Folder id": folder["id"],
+                "Folder title": folder["title"],
             }
         )
 
     return response_array
 
 
-def get_tasks_formatted(wrike_config=None):
-    if wrike_config is None:
-        wrike_config = WrikeConfig()
-    wrike_config.add_params("&updatedDate=" + get_wrike_queary_dates())
-    response = requests.get(wrike_config.get_tasks_url, headers=wrike_config.get_header())
-    response_json = response.json()["data"]
+def formatted_tasks(response_json):
     response_array = []
-    i = 1000
-    while True:
-        next_page_token = response.json().get("nextPageToken")
-        for task in response_json:
-            # TODO : rest of custom fields
-            response_array.append(
-                {
-                    "Task id": task["id"],
-                    "Task title": task["title"],
-                    "Parent Ids": "".join(map(str, task["parentIds"])),
-                    "Super Parent Ids": "".join(map(str, task["superParentIds"])),
-                    "Importance": task["importance"],
-                    "Priority Id": task["priority"],
-                    "Status": task["status"],
-                    "Custom Status Id": datetor(task, "customStatusId"),
-                    "Created Date": datetor(task, "createdDate"),
-                    "Updated Date": datetor(task, "updatedDate"),
-                    "Completed Date": datetor(task, "completedDate"),
-                    "Due Date": datetor(task["dates"], "due"),
-                    "Start Date": datetor(task["dates"], "start"),
-                    "Dates Type": datetor(task["dates"], "type"),
-                    "Permalink": datetor(task, "permalink"),
-                    "Resourse Type": datetor_array(task["customFields"], "IEACTPDZJUABKDUX"),
-                    "Budget points": datetor_array(task["customFields"], "IEACTPDZJUABEXK3"),
-                    "Actual points": datetor_array(task["customFields"], "IEACTPDZJUAA7YIS"),
-                    "Milestone": datetor_array(task["customFields"], "IEACTPDZJUAC43A3"),
-                }
-            )
-        if next_page_token:
-            response = requests.get(
-                wrike_config.get_tasks_url + "&nextPageToken=" + next_page_token,
-                headers=wrike_config.get_header(),
-            )
-            response_json = response.json()["data"]
-            i += 1000
-        else:
-            break
-
+    for task in response_json:
+        response_array.append(
+            {
+                "Task id": task["id"],
+                "Task title": task["title"],
+                "Parent Ids": "".join(map(str, task["parentIds"])),
+                "Super Parent Ids": "".join(map(str, task["superParentIds"])),
+                "Importance": task["importance"],
+                "Priority Id": task["priority"],
+                "Status": task["status"],
+                "Custom Status Id": datetor(task, "customStatusId"),
+                "Created Date": datetor(task, "createdDate"),
+                "Updated Date": datetor(task, "updatedDate"),
+                "Completed Date": datetor(task, "completedDate"),
+                "Due Date": datetor(task["dates"], "due"),
+                "Start Date": datetor(task["dates"], "start"),
+                "Dates Type": datetor(task["dates"], "type"),
+                "Permalink": datetor(task, "permalink"),
+                "Resourse Type": datetor_array(task["customFields"], "IEACTPDZJUABKDUX"),
+                "Budget points": datetor_array(task["customFields"], "IEACTPDZJUABEXK3"),
+                "Actual points": datetor_array(task["customFields"], "IEACTPDZJUAA7YIS"),
+                "Milestone": datetor_array(task["customFields"], "IEACTPDZJUAC43A3"),
+            }
+        )
     return response_array
 
 
@@ -152,23 +133,23 @@ def get_projects(wrike_config=None):
         # TODO : rest of custom fields
         response_array.append(
             {
-                "(project) folder id": folder["id"],
-                "account id": folder["accountId"],
-                "project title": folder["title"],
-                "create date": folder["createdDate"],
-                "update date": folder["updatedDate"],
-                "discription": folder["description"],
-                "permalink": folder["permalink"],
-                "workflow": folder["workflowId"],
-                "project author": datetor(folder["project"], "authorId"),
-                "status": datetor(folder["project"], "status"),
-                "custom status": datetor(folder["project"], "customStatusId"),
-                "create Date": datetor(folder["project"], "createdDate"),
-                "start Date": datetor(folder["project"], "startDate"),
-                "sprint goal": datetor_array(folder["customFields"], "IEACTPDZJUABIBDV"),
-                "budget points": datetor_array(folder["customFields"], "IEACTPDZJUABEXK3"),
-                "actual points": datetor_array(folder["customFields"], "IEACTPDZJUAA7YIS"),
-                "kickoff date": datetor_array(folder["customFields"], "IEACTPDZJUABAL4R"),
+                "(project) Folder id": folder["id"],
+                "Account id": folder["accountId"],
+                "Project title": folder["title"],
+                "Create date": folder["createdDate"],
+                "Update date": folder["updatedDate"],
+                "Discription": folder["description"],
+                "Permalink": folder["permalink"],
+                "Workflow id": folder["workflowId"],
+                "Project author": datetor(folder["project"], "authorId"),
+                "Status": datetor(folder["project"], "status"),
+                "Custom status": datetor(folder["project"], "customStatusId"),
+                "Create Date": datetor(folder["project"], "createdDate"),
+                "Start Date": datetor(folder["project"], "startDate"),
+                "Sprint goal": datetor_array(folder["customFields"], "IEACTPDZJUABIBDV"),
+                "Budget points": datetor_array(folder["customFields"], "IEACTPDZJUABEXK3"),
+                "Actual points": datetor_array(folder["customFields"], "IEACTPDZJUAA7YIS"),
+                "Kickoff date": datetor_array(folder["customFields"], "IEACTPDZJUABAL4R"),
             }
         )
     return response_array

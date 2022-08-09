@@ -67,8 +67,12 @@ def datetor(object: dict, key: str) -> str:
 def datetor_array(object: dict, key: str) -> str:
     for item in object:
         if item["id"] == key:
+            if key == "IEACTPDZJUABEXK3" and item["value"] == "" or key == "IEACTPDZJUAA7YIS" and item["value"] == "":
+                return "0"
             return item["value"]
     else:
+        if key == "IEACTPDZJUABEXK3" or key == "IEACTPDZJUAA7YIS":
+            return "0"
         return ""
 
 
@@ -112,8 +116,8 @@ def formatted_tasks(response_json):
                 "Dates Type": datetor(task["dates"], "type"),
                 "Permalink": datetor(task, "permalink"),
                 "Resourse Type": datetor_array(task["customFields"], "IEACTPDZJUABKDUX"),
-                "Budget points": datetor_array(task["customFields"], "IEACTPDZJUABEXK3"),
-                "Actual points": datetor_array(task["customFields"], "IEACTPDZJUAA7YIS"),
+                "Budget points": float(datetor_array(task["customFields"], "IEACTPDZJUABEXK3")),
+                "Actual points": float(datetor_array(task["customFields"], "IEACTPDZJUAA7YIS")),
                 "Milestone": datetor_array(task["customFields"], "IEACTPDZJUAC43A3"),
             }
         )
@@ -145,8 +149,8 @@ def get_projects(wrike_config=None):
                 "Create Date": datetor(folder["project"], "createdDate"),
                 "Start Date": datetor(folder["project"], "startDate"),
                 "Sprint goal": datetor_array(folder["customFields"], "IEACTPDZJUABIBDV"),
-                "Budget points": datetor_array(folder["customFields"], "IEACTPDZJUABEXK3"),
-                "Actual points": datetor_array(folder["customFields"], "IEACTPDZJUAA7YIS"),
+                "Budget points": float(datetor_array(folder["customFields"], "IEACTPDZJUABEXK3")),
+                "Actual points": float(datetor_array(folder["customFields"], "IEACTPDZJUAA7YIS")),
                 "Kickoff date": datetor_array(folder["customFields"], "IEACTPDZJUABAL4R"),
             }
         )

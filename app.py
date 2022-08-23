@@ -7,11 +7,7 @@ import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
 from flask import Flask, request, abort
-from program.function import (
-    run_google_sheet_wrike_export,
-    run_mongodb_export,
-    write_products_to_google_sheet,
-)
+from program.function import run_google_sheet_wrike_export, run_mongodb_export, write_hubspot_products_to_google_sheet
 from dotenv import load_dotenv
 
 
@@ -53,7 +49,7 @@ def index():
     )
 
 
-@app.route("/googleSheetWrikeExport", methods=["POST"])
+@app.route("/write_wrike_to_google_sheets", methods=["POST"])
 def default_run():
     print("Running run_google_sheet_wrike_export...")
     if request.method == "POST":
@@ -83,7 +79,7 @@ def mongodb_export():
 def run():
     print("Running write_products_to_google_sheet...")
     if request.method == "POST":
-        response = write_products_to_google_sheet()
+        response = write_hubspot_products_to_google_sheet()
         if response is None:
             abort(400)
         else:

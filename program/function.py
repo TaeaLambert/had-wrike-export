@@ -154,7 +154,7 @@ def run_google_sheet_wrike_export():
 
 
 # PRODUCTS:
-def write_products_to_google_sheet():
+def write_hubspot_products_to_google_sheet():
     print("post request on run_main")
     properties = get_all_product_properties()
     products = get_all_products(properties)

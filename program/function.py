@@ -2,8 +2,8 @@ import os
 import psutil
 from pathlib import Path
 from program.utils.files import csv_to_list, json_to_csv, write_to_json
-from program.utils.products import create_csv_and_convert_to_list, format_products
-from program.utils.sheets import (
+from program.utils.hubspot.products import create_csv_and_convert_to_list, format_products
+from program.utils.google_sheets.sheets import (
     google_crential_env_to_file,
     write_contacts,
     write_folders,
@@ -17,11 +17,11 @@ from program.api_requests import (
     get_all_product_properties,
     get_all_products,
 )
-from program.utils.mongodb import (
+from program.utils.mongodb.mongodb import (
     get_all_collections_mongodb,
     get_all_portal_ids_in_collection,
 )
-from program.utils.wrike import get_contacts, get_folders, get_projects, get_tasks, get_workflows
+from program.utils.wrike.wrike import get_contacts, get_folders, get_projects, get_tasks, get_workflows
 
 # MICRO APPS:
 def run_mongodb_export():

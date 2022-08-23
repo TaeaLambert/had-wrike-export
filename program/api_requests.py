@@ -1,6 +1,5 @@
 import os
 from program.utils.hubspot_api import hubspot_request
-from program.utils.hubspot_api_exection import HubspotAPIError
 
 
 def format_properties_url(properties: list[str]) -> str:

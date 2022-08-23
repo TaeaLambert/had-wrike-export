@@ -1,9 +1,18 @@
 import os
 import psutil
 from pathlib import Path
-from program.utils import wrike, sheets, files
+from program.utils.files import csv_to_list, json_to_csv, write_to_json
 from program.utils.products import create_csv_and_convert_to_list, format_products
-from program.utils.sheets import google_crential_env_to_file, write_to_google_sheet
+from program.utils.sheets import (
+    google_crential_env_to_file,
+    write_contacts,
+    write_folders,
+    write_projects,
+    write_tasks,
+    write_tasks_formatted,
+    write_to_google_sheet,
+    write_workflow,
+)
 from program.api_requests import (
     get_all_product_properties,
     get_all_products,
@@ -12,6 +21,7 @@ from program.utils.mongodb import (
     get_all_collections_mongodb,
     get_all_portal_ids_in_collection,
 )
+from program.utils.wrike import get_contacts, get_folders, get_projects, get_tasks, get_workflows
 
 # MICRO APPS:
 def run_mongodb_export():
@@ -31,11 +41,11 @@ def run_mongodb_export():
             portal_ids.append("")
 
     folder_path = Path("./CSV")
-    files.write_to_json(json_holder, folder_path / "mongodb_export.json")
-    files.json_to_csv(folder_path / "mongodb_export.json", folder_path / "mongodb_export.csv")
+    write_to_json(json_holder, folder_path / "mongodb_export.json")
+    json_to_csv(folder_path / "mongodb_export.json", folder_path / "mongodb_export.csv")
     google_crential_env_to_file()
     write_to_google_sheet(
-        files.csv_to_list(folder_path / "mongodb_export.csv"),
+        csv_to_list(folder_path / "mongodb_export.csv"),
         os.getenv("MICROAPP_FILE"),
         os.getenv("MICROAPP_SHEET"),
     )
@@ -59,7 +69,7 @@ def run_google_sheet_wrike_export():
 
     print("Getting data from Wrike...")
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
-    wrike_task = wrike.get_tasks()
+    wrike_task = get_tasks()
     wrike_task_unformatted_array = wrike_task[0]
     wrike_task_formatted_array = wrike_task[1]
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
@@ -67,70 +77,70 @@ def run_google_sheet_wrike_export():
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
 
     # get data from Wrike
-    files.write_to_json(wrike_task_unformatted_array, folder_path / "wrikeTasks.json")
-    files.write_to_json(wrike_task_formatted_array, folder_path / "wrikeTasks_formatted.json")
+    write_to_json(wrike_task_unformatted_array, folder_path / "wrikeTasks.json")
+    write_to_json(wrike_task_formatted_array, folder_path / "wrikeTasks_formatted.json")
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
     del wrike_task_unformatted_array
     del wrike_task_formatted_array
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
     print("Tasks loaded & saved")
 
-    wrike_folder_array = wrike.get_folders()
-    files.write_to_json(wrike_folder_array, folder_path / "wrikeFolders.json")
+    wrike_folder_array = get_folders()
+    write_to_json(wrike_folder_array, folder_path / "wrikeFolders.json")
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
     del wrike_folder_array
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
     print("Folders loaded & saved")
 
-    wrike_folder_array = wrike.get_projects()
-    files.write_to_json(wrike_folder_array, folder_path / "wrikeProjects.json")
+    wrike_folder_array = get_projects()
+    write_to_json(wrike_folder_array, folder_path / "wrikeProjects.json")
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
     del wrike_folder_array
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
     print("Folders loaded & saved")
 
-    wrike_contacts_array = wrike.get_contacts()
-    files.write_to_json(wrike_contacts_array, folder_path / "wrikeContacts.json")
+    wrike_contacts_array = get_contacts()
+    write_to_json(wrike_contacts_array, folder_path / "wrikeContacts.json")
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
     del wrike_contacts_array
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
     print("Contacts loaded & saved")
 
-    wrike_workflows_array = wrike.get_workflows()
-    files.write_to_json(wrike_workflows_array, folder_path / "wrikeWorkflows.json")
+    wrike_workflows_array = get_workflows()
+    write_to_json(wrike_workflows_array, folder_path / "wrikeWorkflows.json")
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
     del wrike_workflows_array
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
     print("Workflows loaded & saved")
 
-    files.json_to_csv(folder_path / "wrikeTasks.json", task_csv_path)
-    files.json_to_csv(folder_path / "wrikeTasks_formatted.json", task_formatted_csv_path)
-    files.json_to_csv(folder_path / "wrikeFolders.json", folder_csv_path)
-    files.json_to_csv(folder_path / "wrikeProjects.json", project_csv_path)
-    files.json_to_csv(folder_path / "wrikeContacts.json", contact_csv_path)
-    files.json_to_csv(folder_path / "wrikeWorkflows.json", workflow_csv_path)
+    json_to_csv(folder_path / "wrikeTasks.json", task_csv_path)
+    json_to_csv(folder_path / "wrikeTasks_formatted.json", task_formatted_csv_path)
+    json_to_csv(folder_path / "wrikeFolders.json", folder_csv_path)
+    json_to_csv(folder_path / "wrikeProjects.json", project_csv_path)
+    json_to_csv(folder_path / "wrikeContacts.json", contact_csv_path)
+    json_to_csv(folder_path / "wrikeWorkflows.json", workflow_csv_path)
 
     # load data from json file
-    csv_list = files.csv_to_list(task_csv_path)
-    csv_list_formatted = files.csv_to_list(task_formatted_csv_path)
-    folder_list = files.csv_to_list(folder_csv_path)
-    project_list = files.csv_to_list(project_csv_path)
-    contact_list = files.csv_to_list(contact_csv_path)
-    workflow_list = files.csv_to_list(workflow_csv_path)
+    csv_list = csv_to_list(task_csv_path)
+    csv_list_formatted = csv_to_list(task_formatted_csv_path)
+    folder_list = csv_to_list(folder_csv_path)
+    project_list = csv_to_list(project_csv_path)
+    contact_list = csv_to_list(contact_csv_path)
+    workflow_list = csv_to_list(workflow_csv_path)
 
-    sheets.google_crential_env_to_file()
+    google_crential_env_to_file()
     print("Writing data to Google Sheets...")
-    sheets.write_workflow(workflow_list)
+    write_workflow(workflow_list)
     print("Workflows written")
-    sheets.write_folders(folder_list)
+    write_folders(folder_list)
     print("Folders written")
-    sheets.write_projects(project_list)
+    write_projects(project_list)
     print("Projects written")
-    sheets.write_contacts(contact_list)
+    write_contacts(contact_list)
     print("Contacts written")
-    sheets.write_tasks(csv_list)
+    write_tasks(csv_list)
     print("Tasks written")
-    sheets.write_tasks_formatted(csv_list_formatted)
+    write_tasks_formatted(csv_list_formatted)
     print("Tasks_formatted written")
     print("RAM memory used:\t" + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2)) + " MB")
     del csv_list_formatted

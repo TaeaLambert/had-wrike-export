@@ -3,7 +3,6 @@ import requests
 import json
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-import psutil
 
 
 class WrikeConfig:

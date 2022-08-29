@@ -8,9 +8,9 @@ def format_properties_url(properties: list[str]) -> str:
 
 def get_all_product_properties():
     url = "https://api.hubapi.com/crm/v3/properties/products"
-    response = hubspot_request(os.getenv("PRIVATE_APP_KEY"), url, "GET").get_all_results()
+    response = hubspot_request(os.getenv("PRIVATE_APP_KEY"), url, "GET")
     properties = []
-    for property in response["results"]:
+    for property in response.data.get("results"):
         properties.append(property["name"])
     return properties
 

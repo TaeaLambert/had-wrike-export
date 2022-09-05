@@ -1,5 +1,6 @@
 bind = "0.0.0.0:8080"
 workers = 3
-worker_connections = 3
+threads = 1
 timeout = 300
-preload_app = True
+max_requests = 500000
+max_requests_jitter = 100000

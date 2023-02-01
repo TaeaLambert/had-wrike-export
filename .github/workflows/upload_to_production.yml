@@ -1,0 +1,61 @@
+# .github/workflows/deploy.yml
+name: Build Locally then deploy to Cloud Run
+on:
+  push:
+    branches:
+      - production
+env:
+  GCP_PROJECT_SLUG: had-internal-projects
+  GCP_REGION: us-central1
+  GCP_DOCKER_REGISTRY_NAME: internal-projects
+  GCP_CLOUD_RUN_SA: firebase-adminsdk-6h8na
+  GCP_DOCKER_CONTAINER_NAME: had-google-sheet-exporter
+  SENTRY_DSN: https://c7d5b1de321f46c6a2bb6d229fa34604@o1281096.ingest.sentry.io/6620090
+jobs:
+  deploy:
+    name: Deploy to Cloud Run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: "google auth"
+        uses: "google-github-actions/auth@v0"
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY_JSON }}
+
+      # Setup gcloud CLI
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v0"
+
+      - name: Version strings
+        id: version
+        # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
+        run: echo "RELEASE_TIME=$(date +"%y-%m-%d-%H-%M")" >> $GITHUB_ENV
+
+      - name: Build
+        run: >
+          docker build --pull
+          -t "${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_SLUG}/${GCP_DOCKER_REGISTRY_NAME}/${GCP_DOCKER_CONTAINER_NAME}:latest"
+          -t "${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_SLUG}/${GCP_DOCKER_REGISTRY_NAME}/${GCP_DOCKER_CONTAINER_NAME}:${{ env.RELEASE_TIME }}"
+          .
+
+      - name: Push
+        run: |
+          gcloud auth configure-docker ${GCP_REGION}-docker.pkg.dev -q
+          docker push ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_SLUG}/${GCP_DOCKER_REGISTRY_NAME}/${GCP_DOCKER_CONTAINER_NAME}:latest
+          docker push ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_SLUG}/${GCP_DOCKER_REGISTRY_NAME}/${GCP_DOCKER_CONTAINER_NAME}:${{ env.RELEASE_TIME }}
+
+      - name: Release
+        run: >
+          gcloud run deploy ${GCP_DOCKER_CONTAINER_NAME}
+          --image=${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_SLUG}/${GCP_DOCKER_REGISTRY_NAME}/${GCP_DOCKER_CONTAINER_NAME}:latest
+          --region ${GCP_REGION}
+          --service-account ${GCP_CLOUD_RUN_SA}@${GCP_PROJECT_SLUG}.iam.gserviceaccount.com
+
+          --update-secrets=CLIENT_SECRET=had-email-separator-hubspot-client-secret:latest
+
+          --update-env-vars=GCP_PROJECT=${GCP_PROJECT_SLUG}
+          --update-env-vars=SENTRY_DSN=${SENTRY_DSN}
+          -q

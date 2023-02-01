@@ -1,52 +1,32 @@
-import logging
-import psutil
+import settings
 import os
-from flask import Flask
-from dotenv import load_dotenv
-import sentry_sdk
-from sentry_sdk.integrations.flask import FlaskIntegration
-from sentry_sdk.integrations.logging import LoggingIntegration
-from flask import Flask, request, abort
+import psutil
+
+
+from fastapi import FastAPI, HTTPException, Depends, status, Request
+from fastapi.responses import RedirectResponse, JSONResponse
+
+
 from program.function import run_google_sheet_wrike_export, run_mongodb_export, write_hubspot_products_to_google_sheet
-from dotenv import load_dotenv
 
 
-logging.basicConfig(
-    format="%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s",
-    datefmt="%Y-%m-%d:%H:%M:%S",
-    level=logging.DEBUG,
-)
-
-load_dotenv()
-
-app = Flask(__name__)
-sentry_logging = LoggingIntegration(
-    level=logging.INFO,  # Capture info and above as breadcrumbs
-    event_level=logging.ERROR,  # Send errors as events
-)
-sentry_sdk.init(
-    dsn=os.getenv("SENTRY_DSN"),
-    integrations=[
-        FlaskIntegration(),
-        sentry_logging,
-    ],
-    environment=os.getenv("FLASK_ENV", "development"),
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    # We recommend adjusting this value in production.
-    traces_sample_rate=1.0,
-)
+app = FastAPI()
 
 
-@app.route("/", methods=["GET"])
+@app.get("/")
 def index():
-    print("in index")
-    return (
+    print("get request on index")
+    return JSONResponse(
         "[had-wrike-google-sheet-export] is running\n"
         + str(round(psutil.Process().memory_info().rss / (1024 * 1024), 2))
-        + " MB",
-        200,
+        + " MB"
     )
+
+
+@app.get("/debug-sentry")
+def crash():
+    print(1 / 0)
+    raise HTTPException(status.HTTP_418_IM_A_TEAPOT, "crash")
 
 
 @app.route("/write_wrike_to_google_sheets", methods=["POST"])
@@ -89,4 +69,4 @@ def run():
 
 
 if __name__ == "__main__":
-    app.run(host=os.getenv("HOST"), port=os.getenv("PORT"), debug=os.getenv("FLASK_DEBUG"))
+    uvicorn.run(app, host=os.getenv("HOST"), port=os.getenv("PORT"), reload=True, workers=1)

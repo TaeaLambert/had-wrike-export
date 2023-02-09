@@ -8,9 +8,9 @@ env:
   GCP_PROJECT_SLUG: had-internal-projects
   GCP_REGION: us-central1
   GCP_DOCKER_REGISTRY_NAME: internal-projects
-  GCP_CLOUD_RUN_SA: firebase-adminsdk-6h8na
+  GCP_CLOUD_RUN_SA: had-internal-project-interact
   GCP_DOCKER_CONTAINER_NAME: had-google-sheet-exporter
-  SENTRY_DSN: https://c7d5b1de321f46c6a2bb6d229fa34604@o1281096.ingest.sentry.io/6620090
+  SENTRY_DSN: https://c44562f6f7274d3b9bcc2a7387dca057@o1281096.ingest.sentry.io/6598582
 jobs:
   deploy:
     name: Deploy to Cloud Run

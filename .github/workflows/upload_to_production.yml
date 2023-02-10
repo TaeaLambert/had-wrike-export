@@ -10,7 +10,7 @@ env:
   GCP_DOCKER_REGISTRY_NAME: internal-projects
   GCP_CLOUD_RUN_SA: had-internal-project-interact
   GCP_DOCKER_CONTAINER_NAME: had-wrike-export-to-google-sheet
-  SENTRY_DSN: hehe
+  SENTRY_DSN: https://29789ef9d2a649e6aa4dac38594e6bbc@o1281096.ingest.sentry.io/4504653719863296
 jobs:
   deploy:
     name: Deploy to Cloud Run

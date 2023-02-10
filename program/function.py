@@ -10,14 +10,13 @@ from program.utils.google_sheets.google_sheets import google_sheets
 # WRIKE:
 def run_google_sheet_wrike_export():
     folder_path = Path("./CSV")
-    task_csv_path = Path(folder_path / "wrikeTasks.csv")
-    task_formatted_csv_path = Path(folder_path / "wrikeTasks_formatted.csv")
+    csv_task_formatted_path = Path(folder_path / "wrikeTasks_formatted.csv")
     csv_contacts_path = Path(folder_path / "wrike_userid_and_name.csv")
 
     print("Getting data from Wrike...")
     write_to_json(get_tasks_due_date(), folder_path / "wrikeTasks_formatted.json")
-    json_to_csv(folder_path / "wrikeTasks_formatted.json", task_formatted_csv_path)
-    csv_list_formatted = csv_to_list(task_formatted_csv_path)
+    json_to_csv(folder_path / "wrikeTasks_formatted.json", csv_task_formatted_path)
+    csv_list_formatted = csv_to_list(csv_task_formatted_path)
     google_sheet_client = google_sheets()
     google_sheet_client.set_csv_into_sheet(
         "H&D | Resource Management | Proposal | Working",
@@ -48,17 +47,3 @@ def run_google_sheet_wrike_export():
     del csv_contacts
 
     return "Completed", 200
-
-
-def change_cell_format(google_sheet_client: google_sheets, google_sheet_id: str, row: str, colour: dict):
-    """_summary_
-
-    Args:
-        google_sheet_client (google_sheets): _description_
-        google_sheet_id (str): _description_
-        cell (str): A4, ect
-        colour (dict): {"red": 0 / 255, "green": 255 / 255, "blue": 0 / 255}
-    """
-    google_sheet_client.set_cell_format(
-        google_sheet_id, os.getenv("GOOGLE_CONFIG_SHEET"), row, {"numberFormat": {"type": "DATETIME"}}
-    )

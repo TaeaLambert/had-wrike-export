@@ -34,6 +34,10 @@ def crash():
 
 @app.post("/write_wrike_to_google_sheets")
 def write_wrike_to_google_sheets(request: Request):
+    # header = request.headers.get("X-APIKEY", type=str)
+    # if header != os.getenv("GOOGLE_HEADER_APIKEY"):
+    #     raise HTTPException(status.HTTP_400_BAD_REQUEST, "Authentication Failed")
+
     print("Running run_google_sheet_wrike_export...")
     if request.method == "POST":
         response = run_google_sheet_wrike_export()

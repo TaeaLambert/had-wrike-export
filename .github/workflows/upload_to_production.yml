@@ -53,6 +53,7 @@ jobs:
           --image=${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_SLUG}/${GCP_DOCKER_REGISTRY_NAME}/${GCP_DOCKER_CONTAINER_NAME}:latest
           --region ${GCP_REGION}
           --service-account ${GCP_CLOUD_RUN_SA}@${GCP_PROJECT_SLUG}.iam.gserviceaccount.com
-          --update-secrets=WRIKE_KEY=wrike-api-key:latest
+          --update-secrets=GOOGLE_HEADER_APIKEY=GOOGLE_HEADER_APIKEY:latest
+          --update-secrets=WRIKE_KEY=WRIKE_KEY:latest
           --update-env-vars=SENTRY_DSN=${SENTRY_DSN}
           -q

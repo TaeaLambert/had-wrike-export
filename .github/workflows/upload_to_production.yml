@@ -9,8 +9,8 @@ env:
   GCP_REGION: us-central1
   GCP_DOCKER_REGISTRY_NAME: internal-projects
   GCP_CLOUD_RUN_SA: had-internal-project-interact
-  GCP_DOCKER_CONTAINER_NAME: had-google-sheet-exporter
-  SENTRY_DSN: https://c44562f6f7274d3b9bcc2a7387dca057@o1281096.ingest.sentry.io/6598582
+  GCP_DOCKER_CONTAINER_NAME: had-wrike-export-to-google-sheet
+  SENTRY_DSN: hehe
 jobs:
   deploy:
     name: Deploy to Cloud Run
@@ -53,9 +53,6 @@ jobs:
           --image=${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_SLUG}/${GCP_DOCKER_REGISTRY_NAME}/${GCP_DOCKER_CONTAINER_NAME}:latest
           --region ${GCP_REGION}
           --service-account ${GCP_CLOUD_RUN_SA}@${GCP_PROJECT_SLUG}.iam.gserviceaccount.com
-
-          --update-secrets=CLIENT_SECRET=had-email-separator-hubspot-client-secret:latest
-
-          --update-env-vars=GCP_PROJECT=${GCP_PROJECT_SLUG}
+          --update-secrets=WRIKE_KEY=wrike-api-key:latest
           --update-env-vars=SENTRY_DSN=${SENTRY_DSN}
           -q

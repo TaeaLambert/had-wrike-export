@@ -45,31 +45,5 @@ def write_wrike_to_google_sheets(request: Request):
         raise HTTPException(status.HTTP_405_METHOD_NOT_ALLOWED, "This Method is not allowed")
 
 
-# @app.route("/mongodb_export", methods=["POST"])
-# def mongodb_export():
-#     print("Running mongodb_export...")
-#     if request.method == "POST":
-#         response = run_mongodb_export()
-#         if response is None:
-#             abort(400)
-#         else:
-#             return "success", 200
-#     else:
-#         abort(405)
-
-
-# @app.route("/write_products_to_google_sheet", methods=["POST"])
-# def run():
-#     print("Running write_products_to_google_sheet...")
-#     if request.method == "POST":
-#         response = write_hubspot_products_to_google_sheet()
-#         if response is None:
-#             abort(400)
-#         else:
-#             return "success", 200
-#     else:
-#         abort(405)
-
-
 if __name__ == "__main__":
     uvicorn.run(app, host=os.getenv("HOST"), port=os.getenv("PORT"), reload=True, workers=1)
